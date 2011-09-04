@@ -33,6 +33,15 @@
 
 /*
  
+ OAuth requires the UTC timestamp we send to be accurate. The user's device
+ may not be, and often isn't. To work around this you should set this to the
+ UTC timestamp that you get back in HTTP header from OAuth servers.
+ 
+ */
+extern int TDOAuthUTCTimeOffset;
+
+/*
+ 
  This OAuth implementation doesn't cover the whole spec (eg. it’s HMAC only).
  But you'll find it works with almost all the OAuth implementations you need
  to interact with in the wild. How ace is that?!
@@ -90,15 +99,6 @@
                         accessToken:(NSString *)accessToken
                         tokenSecret:(NSString *)tokenSecret;
 @end
-
-/*
- 
- OAuth requires the UTC timestamp we send to be accurate. The user's device
- may not be, and often isn't. To work around this you should set this to the
- UTC timestamp that you get back in HTTP header from OAuth servers.
- 
- */
-extern int TDOAuthUTCTimeOffset;
 
 /*
  
