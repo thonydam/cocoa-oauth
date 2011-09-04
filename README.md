@@ -6,3 +6,9 @@ You will need to make your Xcode project link against CommonCrypto. Otherwise
 just drag and drop. Or better yet, use git submodules:
 
     git submodule add https://github.com/guicocoa/TDOAuth.git
+
+Test against
+
+- Twitter
+- Foursquare
+- Dropbox
