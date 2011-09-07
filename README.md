@@ -13,4 +13,4 @@ Tested against
 - Foursquare
 - Dropbox
 
-Forked from [https://github.com/tweetdeck/tdoauth](TDOauth)
+Forked from [TDOAuth](https://github.com/tweetdeck/tdoauth)
