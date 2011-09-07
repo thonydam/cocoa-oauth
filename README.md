@@ -5,10 +5,12 @@ Usage is fully documented in the header.
 You will need to make your Xcode project link against CommonCrypto. Otherwise
 just drag and drop. Or better yet, use git submodules:
 
-    git submodule add https://github.com/guicocoa/TDOAuth.git
+    git submodule add https://github.com/guicocoa/cocoa-oauth.git
 
-Test against
+Tested against
 
 - Twitter
 - Foursquare
 - Dropbox
+
+Forked from [https://github.com/tweetdeck/tdoauth](TDOauth)
