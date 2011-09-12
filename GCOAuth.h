@@ -36,7 +36,7 @@
  But you'll find it works with almost all the OAuth implementations you need
  to interact with in the wild. How ace is that?!
  */
-@interface TDOAuth : NSObject {
+@interface GCOAuth : NSObject {
 @private
     NSString *signatureSecret;
     NSDictionary *OAuthParameters;
@@ -97,7 +97,7 @@
  
  XAuth example (because you may otherwise be scratching your head):
 
-    NSURLRequest *xauth = [TDOAuth URLRequestForPath:@"/oauth/access_token"
+    NSURLRequest *xauth = [GCOAuth URLRequestForPath:@"/oauth/access_token"
                                       POSTParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                                       username, @"x_auth_username",
                                                       password, @"x_auth_password",
@@ -112,7 +112,7 @@
  OAuth Echo example (we have found that some consumers require HTTPS for the
  echo, so to be safe we always do it):
 
-    NSURLRequest *echo = [TDOAuth URLRequestForPath:@"/1/account/verify_credentials.json"
+    NSURLRequest *echo = [GCOAuth URLRequestForPath:@"/1/account/verify_credentials.json"
                                       GETParameters:nil
                                              scheme:@"https"
                                                host:@"api.twitter.com"

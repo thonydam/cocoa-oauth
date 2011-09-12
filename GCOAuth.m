@@ -31,7 +31,7 @@
  
  */
 
-#import "TDOAuth.h"
+#import "GCOAuth.h"
 
 #import <CommonCrypto/CommonHMAC.h>
 
@@ -41,7 +41,7 @@
 static NSString *GCOAuthUserAgent = nil;
 static time_t GCOAuthTimeStampOffset = 0;
 
-@interface TDOAuth ()
+@interface GCOAuth ()
 
 // properties
 @property (nonatomic, copy) NSDictionary *requestParameters;
@@ -76,14 +76,14 @@ static time_t GCOAuthTimeStampOffset = 0;
 - (NSString *)signatureBase;
 
 @end
-@interface NSString (TDOAuthAdditions)
+@interface NSString (GCOAuthAdditions)
 
 // better percent escape
 - (NSString *)pcen;
 
 @end
 
-@implementation TDOAuth
+@implementation GCOAuth
 
 @synthesize requestParameters = __parameters;
 @synthesize HTTPMethod = __method;
@@ -98,8 +98,8 @@ static time_t GCOAuthTimeStampOffset = 0;
     if (self) {
         OAuthParameters = [[NSDictionary alloc] initWithObjectsAndKeys:
                            [[consumerKey copy] autorelease], @"oauth_consumer_key",
-                           [TDOAuth nonce], @"oauth_nonce",
-                           [TDOAuth timeStamp], @"oauth_timestamp",
+                           [GCOAuth nonce], @"oauth_nonce",
+                           [GCOAuth timeStamp], @"oauth_timestamp",
                            @"1.0",  @"oauth_version",
                            @"HMAC-SHA1", @"oauth_signature_method",
                            [[accessToken copy] autorelease], @"oauth_token", // leave accessToken last or you'll break XAuth attempts
@@ -251,7 +251,7 @@ static time_t GCOAuthTimeStampOffset = 0;
     if (host == nil || path == nil) { return nil; }
     
     // create object
-    TDOAuth *oauth = [[TDOAuth alloc] initWithConsumerKey:consumerKey
+    GCOAuth *oauth = [[GCOAuth alloc] initWithConsumerKey:consumerKey
                                            consumerSecret:consumerSecret
                                               accessToken:accessToken
                                               tokenSecret:tokenSecret];
@@ -262,7 +262,7 @@ static time_t GCOAuthTimeStampOffset = 0;
     NSString *encodedPath = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *URLString = [NSString stringWithFormat:@"%@://%@%@", scheme, host, encodedPath];
     if ([oauth.requestParameters count]) {
-        NSString *query = [TDOAuth queryStringFromParameters:oauth.requestParameters];
+        NSString *query = [GCOAuth queryStringFromParameters:oauth.requestParameters];
         URLString = [NSString stringWithFormat:@"%@?%@", URLString, query];
     }
     oauth.URL = [NSURL URLWithString:URLString];
@@ -285,7 +285,7 @@ static time_t GCOAuthTimeStampOffset = 0;
     if (host == nil || path == nil) { return nil; }
     
     // create object
-    TDOAuth *oauth = [[TDOAuth alloc] initWithConsumerKey:consumerKey
+    GCOAuth *oauth = [[GCOAuth alloc] initWithConsumerKey:consumerKey
                                            consumerSecret:consumerSecret
                                               accessToken:accessToken
                                               tokenSecret:tokenSecret];
@@ -298,7 +298,7 @@ static time_t GCOAuthTimeStampOffset = 0;
     // create request
     NSMutableURLRequest *request = [oauth request];
     if ([oauth.requestParameters count]) {
-        NSString *query = [TDOAuth queryStringFromParameters:oauth.requestParameters];
+        NSString *query = [GCOAuth queryStringFromParameters:oauth.requestParameters];
         NSData *data = [query dataUsingEncoding:NSUTF8StringEncoding];
         NSString *length = [NSString stringWithFormat:@"%lu", (unsigned long)[data length]];
         [request setHTTPBody:data];
@@ -313,7 +313,7 @@ static time_t GCOAuthTimeStampOffset = 0;
 }
 
 @end
-@implementation NSString (TDOAuthAdditions)
+@implementation NSString (GCOAuthAdditions)
 - (NSString *)pcen {
     CFStringRef string = CFURLCreateStringByAddingPercentEscapes(NULL,
                                                                  (CFStringRef)self,
