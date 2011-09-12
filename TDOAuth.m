@@ -102,12 +102,12 @@ int TDOAuthUTCTimeOffset = 0;
     self = [super init];
     if (self) {
         OAuthParameters = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           [consumerKey copy], @"oauth_consumer_key",
+                           [[consumerKey copy] autorelease], @"oauth_consumer_key",
                            [TDOAuth nonce], @"oauth_nonce",
                            [TDOAuth timeStamp], @"oauth_timestamp",
                            @"1.0",  @"oauth_version",
                            @"HMAC-SHA1", @"oauth_signature_method",
-                           [accessToken copy], @"oauth_token", // leave accessToken last or you'll break XAuth attempts
+                           [[accessToken copy] autorelease], @"oauth_token", // leave accessToken last or you'll break XAuth attempts
                            nil];
         signatureSecret = [[NSString stringWithFormat:@"%@&%@", [consumerSecret pcen], [tokenSecret ?: @"" pcen]] retain];
     }
@@ -134,6 +134,7 @@ int TDOAuthUTCTimeOffset = 0;
         NSString *entry = [NSString stringWithFormat:@"%@=\"%@\"", [key pcen], [obj pcen]];
         [entries addObject:entry];
     }];
+    [dictionary release];
     return [@"OAuth " stringByAppendingString:[entries componentsJoinedByString:@","]];
 }
 - (NSString *)signature {
