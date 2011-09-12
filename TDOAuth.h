@@ -32,20 +32,9 @@
 #import <Foundation/Foundation.h>
 
 /*
- 
- OAuth requires the UTC timestamp we send to be accurate. The user's device
- may not be, and often isn't. To work around this you should set this to the
- UTC timestamp that you get back in HTTP header from OAuth servers.
- 
- */
-extern int TDOAuthUTCTimeOffset;
-
-/*
- 
  This OAuth implementation doesn't cover the whole spec (eg. it’s HMAC only).
  But you'll find it works with almost all the OAuth implementations you need
  to interact with in the wild. How ace is that?!
- 
  */
 @interface TDOAuth : NSObject {
 @private
@@ -54,12 +43,20 @@ extern int TDOAuthUTCTimeOffset;
 }
 
 /*
- 
+ Set the user agent to be used for all requests.
+ */
++ (void)setUserAgent:(NSString *)agent;
+
+/*
+ Set the time offset to be used for timestamp calculations.
+ */
++ (void)setTimeStampOffset:(time_t)offset;
+
+/*
  Creates and returns a URL request that will perform a GET HTTP operation. All
  of the appropriate fields will be parameter encoded as necessary so do not
  encode them yourself. The contents of the parameters dictionary must be string
  key/value pairs. You are contracted to consume the NSURLRequest *immediately*.
- 
  */
 + (NSURLRequest *)URLRequestForPath:(NSString *)path
                       GETParameters:(NSDictionary *)parameters
@@ -70,10 +67,8 @@ extern int TDOAuthUTCTimeOffset;
                         tokenSecret:(NSString *)tokenSecret;
 
 /*
- 
  Performs the same operation as the above method but allows a customizable URL
  scheme, e.g. HTTPS.
- 
  */
 + (NSURLRequest *)URLRequestForPath:(NSString *)path
                       GETParameters:(NSDictionary *)parameters
@@ -85,11 +80,9 @@ extern int TDOAuthUTCTimeOffset;
                         tokenSecret:(NSString *)tokenSecret;
 
 /*
- 
  Creates and returns a URL request that will perform a POST HTTP operation. All
  data will be sent as form URL encoded. Restrictions on the arguments to this
  method are the same as the GET request methods.
- 
  */
 + (NSURLRequest *)URLRequestForPath:(NSString *)path
                      POSTParameters:(NSDictionary *)parameters

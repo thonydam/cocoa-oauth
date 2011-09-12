@@ -37,14 +37,9 @@
 
 #import "NSData+Base64.h"
 
-#ifndef TDOAuthURLRequestTimeout
-#define TDOAuthURLRequestTimeout 30.0
-#endif
-#ifndef TDUserAgent
-#warning Don't be a n00b! #define TDUserAgent!
-#endif
-
-int TDOAuthUTCTimeOffset = 0;
+// static variables
+static NSString *GCOAuthUserAgent = nil;
+static time_t GCOAuthTimeStampOffset = 0;
 
 @interface TDOAuth ()
 
@@ -114,13 +109,13 @@ int TDOAuthUTCTimeOffset = 0;
     return self;
 }
 - (NSMutableURLRequest *)request {
-    // TODO: timeout interval depends on connectivity status
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.URL
-                                                           cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                       timeoutInterval:TDOAuthURLRequestTimeout];
-#ifdef TDUserAgent
-    [request setValue:TDUserAgent forHTTPHeaderField:@"User-Agent"];
-#endif
+    NSMutableURLRequest *request = [NSMutableURLRequest
+                                    requestWithURL:self.URL
+                                    cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                    timeoutInterval:10.0];
+    if (GCOAuthUserAgent) {
+        [request setValue:GCOAuthUserAgent forHTTPHeaderField:@"User-Agent"];
+    }
     [request setValue:[self authorizationHeader] forHTTPHeaderField:@"Authorization"];
     [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
     [request setHTTPMethod:self.HTTPMethod];
@@ -200,6 +195,13 @@ int TDOAuthUTCTimeOffset = 0;
 }
 
 #pragma mark - class methods
++ (void)setUserAgent:(NSString *)agent {
+    [GCOAuthUserAgent release];
+    GCOAuthUserAgent = [agent copy];
+}
++ (void)setTimeStampOffset:(time_t)offset {
+    GCOAuthTimeStampOffset = offset;
+}
 + (NSString *)nonce {
     CFUUIDRef uuid = CFUUIDCreate(NULL);
     CFStringRef string = CFUUIDCreateString(NULL, uuid);
@@ -210,7 +212,7 @@ int TDOAuthUTCTimeOffset = 0;
     time_t t;
     time(&t);
     mktime(gmtime(&t));
-    return [NSString stringWithFormat:@"%u", (t + TDOAuthUTCTimeOffset)];
+    return [NSString stringWithFormat:@"%u", (t + GCOAuthTimeStampOffset)];
 }
 + (NSString *)queryStringFromParameters:(NSDictionary *)parameters {
     NSMutableArray *entries = [NSMutableArray array];
