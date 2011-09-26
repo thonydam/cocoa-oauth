@@ -53,6 +53,11 @@
 + (void)setTimeStampOffset:(time_t)offset;
 
 /*
+ Control HTTPS cookie storage for all generated requests
+ */
+ + (void)setHTTPShouldHandleCookies:(BOOL)handle;
+
+/*
  Creates and returns a URL request that will perform a GET HTTP operation. All
  of the appropriate fields will be parameter encoded as necessary so do not
  encode them yourself. The contents of the parameters dictionary must be string
