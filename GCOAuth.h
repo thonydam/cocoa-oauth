@@ -55,7 +55,7 @@
 /*
  Control HTTPS cookie storage for all generated requests
  */
- + (void)setHTTPShouldHandleCookies:(BOOL)handle;
++ (void)setHTTPShouldHandleCookies:(BOOL)handle;
 
 /*
  Creates and returns a URL request that will perform a GET HTTP operation. All
