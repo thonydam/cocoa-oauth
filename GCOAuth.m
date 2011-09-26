@@ -40,6 +40,7 @@
 // static variables
 static NSString *GCOAuthUserAgent = nil;
 static time_t GCOAuthTimeStampOffset = 0;
+static BOOL GCOAuthUseHTTPSCookieStorage = YES;
 
 @interface GCOAuth ()
 
@@ -119,6 +120,7 @@ static time_t GCOAuthTimeStampOffset = 0;
     [request setValue:[self authorizationHeader] forHTTPHeaderField:@"Authorization"];
     [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
     [request setHTTPMethod:self.HTTPMethod];
+    [request setHTTPShouldHandleCookies:GCOAuthUseHTTPSCookieStorage];
     return request;
 }
 - (NSString *)authorizationHeader {
@@ -201,6 +203,9 @@ static time_t GCOAuthTimeStampOffset = 0;
 }
 + (void)setTimeStampOffset:(time_t)offset {
     GCOAuthTimeStampOffset = offset;
+}
++ (void)setHTTPShouldHandleCookies:(BOOL)handle {
+    GCOAuthUseHTTPSCookieStorage = handle;
 }
 + (NSString *)nonce {
     CFUUIDRef uuid = CFUUIDCreate(NULL);
