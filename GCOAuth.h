@@ -98,6 +98,19 @@
                         tokenSecret:(NSString *)tokenSecret;
 @end
 
+@interface NSString (GCOAuthAdditions)
+
+// better percent escape
+- (NSString *)pcen;
+@end
+
+@interface NSURL (GCOAuthURL)
+
+/*
+ Get host:port from URL unless port is 80 or 443 (http://tools.ietf.org/html/rfc5849#section-3.4.1.2). Otherwis reurn only host.
+ */
+- (NSString *)hostAndPort;
+@end
 /*
  
  XAuth example (because you may otherwise be scratching your head):
