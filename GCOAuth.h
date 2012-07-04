@@ -57,6 +57,22 @@
  */
 + (void)setHTTPShouldHandleCookies:(BOOL)handle;
 
+/**
+ Creates and returns a URL request that will perform an HTTP operation for the given method. All
+ of the appropriate fields will be parameter encoded as necessary so do not
+ encode them yourself. The contents of the parameters dictionary must be string
+ key/value pairs. You are contracted to consume the NSURLRequest *immediately*.
+ */
++ (NSURLRequest *)URLRequestForPath:(NSString *)path
+                         HTTPMethod:(NSString *)HTTPMethod
+                         parameters:(NSDictionary *)parameters
+                             scheme:(NSString *)scheme
+                               host:(NSString *)host
+                        consumerKey:(NSString *)consumerKey
+                     consumerSecret:(NSString *)consumerSecret
+                        accessToken:(NSString *)accessToken
+                        tokenSecret:(NSString *)tokenSecret;
+
 /*
  Creates and returns a URL request that will perform a GET HTTP operation. All
  of the appropriate fields will be parameter encoded as necessary so do not
@@ -91,6 +107,19 @@
  */
 + (NSURLRequest *)URLRequestForPath:(NSString *)path
                      POSTParameters:(NSDictionary *)parameters
+                               host:(NSString *)host
+                        consumerKey:(NSString *)consumerKey
+                     consumerSecret:(NSString *)consumerSecret
+                        accessToken:(NSString *)accessToken
+                        tokenSecret:(NSString *)tokenSecret;
+
+/*
+ Performs the same operation as the above method but allows a customizable URL
+ scheme, e.g. HTTPS.
+ */
++ (NSURLRequest *)URLRequestForPath:(NSString *)path
+                     POSTParameters:(NSDictionary *)parameters
+                             scheme:(NSString *)scheme
                                host:(NSString *)host
                         consumerKey:(NSString *)consumerKey
                      consumerSecret:(NSString *)consumerSecret
