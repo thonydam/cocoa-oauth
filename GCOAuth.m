@@ -243,22 +243,17 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
                                               tokenSecret:tokenSecret];
     oauth.HTTPMethod = HTTPMethod;
     oauth.requestParameters = parameters;
-        
+    
+    NSString *encodedPath = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *URLString = [NSString stringWithFormat:@"%@://%@%@", scheme, host, encodedPath];
     if ([[HTTPMethod uppercaseString] isEqualToString:@"GET"]) {
         // Handle GET
-        NSString *encodedPath = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *URLString = [NSString stringWithFormat:@"%@://%@%@", scheme, host, encodedPath];
         if ([oauth.requestParameters count]) {
             NSString *query = [GCOAuth queryStringFromParameters:oauth.requestParameters];
             URLString = [NSString stringWithFormat:@"%@?%@", URLString, query];
         }
-        oauth.URL = [NSURL URLWithString:URLString];                
-    } else {
-        // All other HTTP methods
-        NSURL *URL = [[NSURL alloc] initWithScheme:scheme host:host path:path];
-        oauth.URL = URL;
-        [URL release];                
-    }    
+    }
+    oauth.URL = [NSURL URLWithString:URLString];
     
     NSMutableURLRequest *request = [oauth request];
     if (![[HTTPMethod uppercaseString] isEqualToString:@"GET"] && [oauth.requestParameters count]) {
