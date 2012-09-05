@@ -306,6 +306,41 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
                        tokenSecret:tokenSecret];
 }
 + (NSURLRequest *)URLRequestForPath:(NSString *)path
+                   DELETEParameters:(NSDictionary *)parameters
+                               host:(NSString *)host
+                        consumerKey:(NSString *)consumerKey
+                     consumerSecret:(NSString *)consumerSecret
+                        accessToken:(NSString *)accessToken
+                        tokenSecret:(NSString *)tokenSecret {
+    return [self URLRequestForPath:path
+						HTTPMethod:@"DELETE"
+                        parameters:parameters
+                            scheme:@"http"
+                              host:host
+                       consumerKey:consumerKey
+                    consumerSecret:consumerSecret
+                       accessToken:accessToken
+                       tokenSecret:tokenSecret];
+}
++ (NSURLRequest *)URLRequestForPath:(NSString *)path
+                   DELETEParameters:(NSDictionary *)parameters
+                             scheme:(NSString *)scheme
+                               host:(NSString *)host
+                        consumerKey:(NSString *)consumerKey
+                     consumerSecret:(NSString *)consumerSecret
+                        accessToken:(NSString *)accessToken
+                        tokenSecret:(NSString *)tokenSecret {
+    return [self URLRequestForPath:path
+						HTTPMethod:@"DELETE"
+                        parameters:parameters
+                            scheme:scheme
+                              host:host
+                       consumerKey:consumerKey
+                    consumerSecret:consumerSecret
+                       accessToken:accessToken
+                       tokenSecret:tokenSecret];
+}
++ (NSURLRequest *)URLRequestForPath:(NSString *)path
                      POSTParameters:(NSDictionary *)parameters
                                host:(NSString *)host
                         consumerKey:(NSString *)consumerKey
