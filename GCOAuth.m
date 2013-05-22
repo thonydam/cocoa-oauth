@@ -37,6 +37,8 @@
 
 #import "NSData+Base64.h"
 
+#import "Constant.h"
+
 // static variables
 static NSString *GCOAuthUserAgent = nil;
 static time_t GCOAuthTimeStampOffset = 0;
@@ -162,14 +164,26 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
     
     // construct request url
     NSURL *URL = self.URL;
-
-	// Use CFURLCopyPath so that the path is preserved with trailing slash, then escape the percents ourselves
+    
+    // Use CFURLCopyPath so that the path is preserved with trailing slash, then escape the percents ourselves
     NSString *pathWithPrevervedTrailingSlash = [CFBridgingRelease(CFURLCopyPath((CFURLRef)URL)) stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-    NSString *URLString = [NSString stringWithFormat:@"%@://%@%@",
+    NSString *URLString = @"";
+    
+#if defined(ENVIRONMENT_PRODUCTION)
+    //Prod
+    URLString = [NSString stringWithFormat:@"%@://%@%@",
                            [[URL scheme] lowercaseString],
                            [[URL hostAndPort] lowercaseString],
                            pathWithPrevervedTrailingSlash];
+#else
+    //Dev & TEST
+    URLString = [NSString stringWithFormat:@"%@://%@:8080%@",
+                           [[URL scheme] lowercaseString],
+                           [[URL hostAndPort] lowercaseString],
+                           pathWithPrevervedTrailingSlash];
+#endif
+
     
     // create components
     NSArray *components = [NSArray arrayWithObjects:
