@@ -178,9 +178,16 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
                            pathWithPrevervedTrailingSlash];
 #else
     //Dev & TEST
-    URLString = [NSString stringWithFormat:@"%@://%@:8080%@",
+    
+    NSString * port = @":8080";
+    
+    if ([[[URL hostAndPort] lowercaseString] isEqualToString:@"capi1.travelersnetwork.com"])
+        port = @"";
+    
+    URLString = [NSString stringWithFormat:@"%@://%@%@%@",
                            [[URL scheme] lowercaseString],
                            [[URL hostAndPort] lowercaseString],
+                           port,
                            pathWithPrevervedTrailingSlash];
 #endif
 
