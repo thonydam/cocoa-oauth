@@ -181,7 +181,8 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
     
     NSString * port = @":8080";
     
-    if ([[[URL hostAndPort] lowercaseString] isEqualToString:@"capi1.travelersnetwork.com"])
+    if ([[[URL hostAndPort] lowercaseString] isEqualToString:@"capi1.travelersnetwork.com"] ||
+        [[[URL hostAndPort] lowercaseString] isEqualToString:@"testcapi1.travelersnetwork.com"])
         port = @"";
     
     URLString = [NSString stringWithFormat:@"%@://%@%@%@",
