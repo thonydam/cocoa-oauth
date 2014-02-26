@@ -170,7 +170,24 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
 
     NSString *URLString = @"";
     
-#if defined(ENVIRONMENT_PRODUCTION)
+
+#if defined(WL_TEST)
+    
+    //WL in TEST
+    
+    NSString * port = @":8080";
+    
+    if ([[[URL hostAndPort] lowercaseString] isEqualToString:@"capi1.travelersnetwork.com"] ||
+        [[[URL hostAndPort] lowercaseString] isEqualToString:@"testcapi1.travelersnetwork.com"])
+        port = @"";
+    
+    URLString = [NSString stringWithFormat:@"%@://%@%@%@",
+                 [[URL scheme] lowercaseString],
+                 [[URL hostAndPort] lowercaseString],
+                 port,
+                 pathWithPrevervedTrailingSlash];
+    
+#elif defined(ENVIRONMENT_PRODUCTION)
     //Prod
     URLString = [NSString stringWithFormat:@"%@://%@%@",
                            [[URL scheme] lowercaseString],
